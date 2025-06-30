@@ -1,0 +1,33 @@
+{
+  "courses": [
+    { "category": "Courses for the Major", "code": "CS301", "name": "Software Engineering Fundamentals", "group": "", "professor": "Dr. Smith", "credit": 0 },
+    { "category": "Courses for the Major", "code": "CS302", "name": "Advanced Software Engineering", "group": "", "professor": "Dr. Smith", "credit": 0 },
+    { "category": "Courses for the Major", "code": "CS303", "name": "Database Systems", "group": "", "professor": "Dr. Johnson", "credit": 0 },
+    { "category": "Courses for the Major", "code": "CS304", "name": "Network Programming", "group": "", "professor": "Dr. Brown", "credit": 0 },
+    { "category": "Courses for the Major", "code": "CS305", "name": "Distributed System", "group": "", "professor": "Salama Shady", "credit": 0 },
+    { "category": "Introductory Courses", "code": "53076", "name": "Applied Informatics 1", "group": "G1", "professor": "SALAMA SHADY", "credit": 2 },
+    { "category": "Courses in General Education", "code": "15050", "name": "Foundations of Data Science and AI *", "group": "G1", "professor": "NISHIKADO HIDETO", "credit": 2 },
+    { "category": "Courses in General Education", "code": "52046", "name": "History of Computing", "group": "GV", "professor": "KAMEI KATSUARI", "credit": 2 },
+    { "category": "Courses for the Major", "code": "53172", "name": "PBL 5: Design Evolution", "group": "G2", "professor": "SERDUELT UWE IMRE", "credit": 4 },
+    { "category": "Courses for the Major", "code": "53182", "name": "Web Information Engineering", "group": "G1", "professor": "PITUXCOOSUVARAN MONDHEERA", "credit": 2 },
+    { "category": "Courses for the Major", "code": "53174", "name": "Distributed Systems", "group": "G1", "professor": "SALAMA SHADY", "credit": 2 },
+    { "category": "Courses for the Major", "code": "53175", "name": "Systems Ergonomics", "group": "G1", "professor": "UHDE ALARITH", "credit": 2 },
+    { "category": "Courses for the Major", "code": "53180", "name": "Image Processing", "group": "G1", "professor": "GONCHARENKO IGOR", "credit": 2 },
+    { "category": "Introductory Courses", "code": "", "name": "Engineering Mathematics 1", "group": "G1", "professor": "BAI YANG", "credit": 2 },
+    { "category": "Introductory Courses", "code": "", "name": "Exercises in Physics", "group": "G1", "professor": "SVININ MIKHAIL", "credit": 2 },
+    { "category": "Introductory Courses", "code": "", "name": "Physics", "group": "G1", "professor": "SVININ MIKHAIL", "credit": 2 },
+    { "category": "Introductory Courses", "code": "", "name": "Engineering Mathematics 2", "group": "G1", "professor": "GU YANLEI", "credit": 2 },
+    { "category": "Introductory Courses", "code": "", "name": "Engineering Mathematics 3", "group": "G1", "professor": "SVININ MIKHAIL", "credit": 2 },
+    { "category": "Introductory Courses", "code": "", "name": "Introduction to Differential Equations", "group": "G1", "professor": "SVININ MIKHAIL", "credit": 2 },
+    { "category": "Introductory Courses", "code": "", "name": "Engineering Mathematics 4", "group": "G1", "professor": "LIU WENBIN", "credit": 2 },
+    { "category": "Introductory Courses", "code": "", "name": "Statistical Analysis, Simulation, and Modeling", "group": "G1", "professor": "KRYSSANOV VICTOR", "credit": 2 },
+    { "category": "Courses in General Education", "code": "", "name": "Cross-cultural Encounters 1", "group": "G5", "professor": "LIU SORAYA", "credit": 2 },
+    { "category": "Courses in General Education", "code": "", "name": "Cross-cultural Seminar", "group": "G1", "professor": "KANDUBODA B. PRABATH", "credit": 2 },
+    { "category": "Courses in General Education", "code": "", "name": "Liberal Arts Seminar *", "group": "18", "professor": "NOZAWA TAKESHI", "credit": 2 },
+    { "category": "Courses in General Education", "code": "", "name": "Understanding Visual Culture", "group": "GV", "professor": "NAGATA AKIKO", "credit": 2 },
+    { "category": "Courses in General Education", "code": "", "name": "Introduction to Computational Linguistics *", "group": "GV", "professor": "KANAMARU TOSHIYUKI", "credit": 2 },
+    { "category": "Foreign Language Courses", "code": "", "name": "English 109", "group": "G3", "professor": "CHIBA AKIKO", "credit": 1 },
+    { "category": "Foreign Language Courses", "code": "", "name": "English 110", "group": "G3", "professor": "LITTLECOTT GARY", "credit": 1 },
+    { "category": "Foreign Language Courses", "code": "", "name": "Academic Literacy 302", "group": "G2", "professor": "WHITE JEREMY STEWART", "credit": 2 }
+  ]
+} 

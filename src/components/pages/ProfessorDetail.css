@@ -1,0 +1,199 @@
+.professor-detail-page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 0;
+}
+.professor-card-detail {
+  background: white;
+  border-radius: 16px;
+  padding: 36px 40px;
+  box-shadow: 0 6px 24px rgba(214, 48, 49, 0.10);
+  min-width: 340px;
+  max-width: 400px;
+  text-align: center;
+}
+.professor-photo {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  border: 4px solid #d63031;
+}
+.professor-courses ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 0;
+}
+.professor-courses li {
+  margin-bottom: 8px;
+}
+.course-link:hover {
+  color: #b71c1c;
+}
+
+.professor-detail-page.new-layout {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 48px;
+  padding: 48px 0;
+  background: #fafbfc;
+}
+
+.professor-photo-col {
+  flex: 0 0 260px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.professor-photo-large {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(214, 48, 49, 0.10);
+  border: 4px solid #fff;
+  background: #f1f2f6;
+}
+
+.professor-info-col {
+  flex: 1;
+  min-width: 320px;
+  max-width: 520px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(214, 48, 49, 0.10);
+  padding: 36px 40px;
+}
+
+.professor-name {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #d63031;
+  margin-bottom: 32px;
+  letter-spacing: 1px;
+}
+
+.professor-info-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 18px;
+  font-size: 1.1rem;
+}
+
+.professor-info-table th {
+  text-align: left;
+  color: #888;
+  font-weight: 600;
+  width: 160px;
+  vertical-align: top;
+  padding-right: 16px;
+}
+
+.professor-info-table td {
+  color: #2d3436;
+  font-weight: 500;
+}
+
+.professor-courses-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.professor-courses-list li {
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.course-link {
+  color: #d63031;
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .professor-detail-page.new-layout {
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    padding: 32px 0;
+  }
+  .professor-info-col {
+    padding: 28px 16px;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .professor-photo-col {
+    flex: none;
+  }
+}
+
+.professor-rating-summary {
+  margin-top: 32px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+.professor-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+}
+.professor-rating-label {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #444;
+  min-width: 32px;
+  text-align: right;
+}
+.professor-rating-count {
+  color: #888;
+  font-size: 1rem;
+  margin-left: 4px;
+}
+.professor-rating-dim-label {
+  color: #888;
+  font-size: 1rem;
+  margin-left: 8px;
+  min-width: 110px;
+}
+
+.professor-rating-form-wrapper {
+  margin-top: 40px;
+  background: #fafbfc;
+  border-radius: 12px;
+  padding: 24px 20px 16px 20px;
+  box-shadow: 0 2px 8px rgba(214, 48, 49, 0.06);
+}
+.professor-rating-form-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.professor-rating-form-row .professor-rating-dim-label {
+  min-width: 110px;
+  color: #d63031;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+.professor-rating-value {
+  color: #888;
+  font-size: 1.1rem;
+  min-width: 32px;
+}
+.professor-rating-form button.btn-primary {
+  font-size: 1.1rem;
+  padding: 10px 32px;
+  border-radius: 8px;
+  margin-top: 10px;
+} 
