@@ -4,7 +4,7 @@ const { register, login, getMe, logout} = require('../controllers/authController
 const { authMiddleware } = require('../middleware/authMiddleware.js');
 const {authenticateToken} = require('../middleware/authMiddleware.js');
 
-
+//routes
 router.post('/register-user', register);
 router.post('/login-user', login);
 router.post('/logout', logout);
