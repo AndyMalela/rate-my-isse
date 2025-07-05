@@ -1,0 +1,57 @@
+course_name,professor_name,period,semester_term,language
+52050:Computers in Education (GV),WHITE JEREMY STEWART,Mon2,Fall,English
+52051:Language in Politics (GV),DAUER HARRY,Mon5,Fall,English
+52849:English 103 (RG),DAUER HARRY,Mon2,Spring,English/Japanese
+52856:English 104 (RF),DAUER HARRY,Tue4,Spring,English/Japanese
+52887:English 107 (Q2),DAUER HARRY,Mon3,Fall,English/Japanese
+52895:English 107 (R3),DAUER HARRY,Mon4,Fall,English/Japanese
+52916:English 109 (G1),WHITE JEREMY STEWART,Mon3,Spring,English/Japanese
+52932:English 110 (G1),DAUER HARRY,Thu3,Spring,English
+52933:English 110 (G2),WHITE JEREMY STEWART,Thu3,Spring,English
+52935:English 110 (Q1),DAUER HARRY,Thu4,Fall,English
+52942:English 110 (R1),DAUER HARRY,Thu3,Fall,English
+52950:Professional Communication 301 (G3),WHITE JEREMY STEWART,Mon3,Fall,English
+52960:Academic Literacy 302 (G2),WHITE JEREMY STEWART,Thu3,Fall,English
+52965:Academic Literacy 302 (QH),WHITE JEREMY STEWART,Mon1,Spring,English
+52969:Academic Literacy 302 (RH),WHITE JEREMY STEWART,Mon2,Spring,English
+52970:Professional Communication 303 (GA),WHITE JEREMY STEWART,Mon4,Spring,English
+52977:Academic Literacy 304 (GC),WHITE JEREMY STEWART,Thu4,Spring,English
+53048:Introduction to Information Systems Engineering (G1),VALENTINUS ROBY HANANTO,Tue4,Spring,English
+53049:Professional Ethics (G1),UHDE ALARITH,Thu5,Spring,English
+53050:Introduction to Experimentation (G1) § 53051:Experimentation 1 (G1),SERDUELT UWE IMRE,Wed2,Spring,English
+53058:Software Engineering (G1),KOVACS MATE,Wed3,Spring,English
+53062:Computer Networks (G1),KOVACS MATE,Mon5,Spring,English
+53066:Digital Signal Processing (G1),CHANDLER DAMON MICHAEL,Tue2,Spring,English
+53070:Computer Architecture (G1),SALAMA SHADY,Fri1,Spring,English
+53074:Information Science in Action (K1) § 53075:Information Science 1 (S1),VALENTINUS ROBY HANANTO,Mon5,Spring,English
+53076:Applied Informatics 1 (G1),SALAMA SHADY,Wed3,Spring,English
+53077:Writing for Publication 402 (GG),DAUER HARRY,Thu4,Spring,English
+53079:Writing for Information Systems Engineering (GG),COOPER ERIC WALLACE,Wed1,Spring,English
+53084:Programming Practice 2 (C1),PITUXCOOSUVARN MONDHEERA,Fri3,Spring,English
+53090:Programming Practice 2 (G1),VALENTINUS ROBY HANANTO,Tue5,Spring,English
+53091:Programming Practice 2 (G2),CALUYA NICKO REGINIO,Tue5,Spring,English
+53098:Data Structures and Algorithms (G1),CALUYA NICKO REGINIO,Fri5,Spring,English
+53164:Introduction to Programming (G1),CALUYA NICKO REGINIO,Fri2,Spring,English
+53165:Introduction to OOA OOD and UML (G1),GOHOROU DJEDJE DIDIER,Thu2,Spring,English
+53166:PBL 3: Creative Design (G1) § 53167:PBL: Creative Design (G1),SERDUELT UWE IMRE,Tue3-4,Spring,English
+53168:PBL 3: Creative Design (G2) § 53169:PBL: Creative Design (G2),KOVACS MATE,Tue3-4,Spring,English
+53174:Distributed Systems (G1),SALAMA SHADY,Tue1,Spring,English
+53175:Systems Ergonomics (G1) § 53176:Ergonomics and Affective Engineering (G1),UHDE ALARITH,Tue2,Spring,English
+53177:Data Visualization (G1) § 53178:Visualization and Computer Art (G1) § 53179:Topics in IT 3 (K1),COOPER ERIC WALLACE,Tue4,Fall,English
+53182:Web Information Engineering (G1) § 53183:Topics in IT 2 (K1),PITUXCOOSUVARN MONDHEERA,Mon3,Spring,English
+53233:Boolean Algebra and Logic Design (G1),UHDE ALARITH,Thu5,Fall,English
+53237:Experimental Design (G1) § 53238:Experimentation 2 (G1),SERDUELT UWE IMRE,Wed2,Fall,English
+53239:Databases (G1),VALENTINUS ROBY HANANTO,Wed2,Fall,English
+53243:Operating Systems (G1),GOHOROU DJEDJE DIDIER,Wed5,Fall,English
+53247:Computer Security (G1),COOPER ERIC WALLACE,Thu5,Fall,English
+53251:Computer Graphics (G1),CALUYA NICKO REGINIO,Fri2,Fall,English
+53254:Artificial Intelligence (G1),KOVACS MATE,Tue4,Fall,English
+53258:Presentation Plus 401 (GG),WHITE JEREMY STEWART,Mon4,Fall,English
+53265:Programming Language (G1),SALAMA SHADY,Tue3,Fall,English
+53276:Programming Practice 1 (G1),SALAMA SHADY,Tue5,Fall,English
+53277:Programming Practice 1 (G2),CALUYA NICKO REGINIO,Tue5,Fall,English
+53344:Imperative Programming (G1),VALENTINUS ROBY HANANTO,Thu2,Fall,English
+53345:Imperative Programming Practice (G1),CALUYA NICKO REGINIO,Fri4,Fall,English
+53346:Network Systems (G1),GOHOROU DJEDJE DIDIER,Mon2,Fall,English
+53347:Human Interface (G1),UHDE ALARITH,Tue2,Fall,English
+53351:Data Science (G1),VALENTINUS ROBY HANANTO,Mon1,Fall,English
