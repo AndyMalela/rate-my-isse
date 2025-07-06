@@ -1,94 +1,58 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+
 import './Login.css';
 
-const Login = ({ onLogin }) => {
-  const [formData, setFormData] = useState({
-    username: '',
-    password: ''
-  });
-  const [message, setMessage] = useState('');
-  const [messageType, setMessageType] = useState('');
 
-  // Valid users data
-  const validUsers = [
-    {
-      username: "CHU Mingzuo",
-      password: "020418",
-      role: "student"
-    }
-  ];
+export default function Login (){
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    
-    const { username, password } = formData;
-    
-    // Clear previous message
-    setMessage('');
-    setMessageType('');
+    console.log(email, password); // Debugging line
 
-    // Validate user input
-    const user = validUsers.find(u => 
-      u.username === username.trim() && u.password === password
-    );
+    try{
+      const response = await axios.post("/api/auth/login-user", { email, password});
 
-    if (user) {
-      // Login successful
-      setMessage('Login successful! Redirecting to student dashboard...');
-      setMessageType('success');
-      
-      // Save user info and trigger login
-      const userData = {
-        username: user.username,
-        role: user.role,
-        loginTime: new Date().toISOString()
-      };
-      
-      setTimeout(() => {
-        onLogin(userData);
-      }, 1500);
-      
-    } else {
-      // Login failed
-      setMessage('Invalid username or password. Please try again.');
-      setMessageType('error');
-      
-      // Clear password field
-      setFormData(prev => ({ ...prev, password: '' }));
+      if (response.data.success) {
+        toast.success(response.data.message || "Login Successful");
+
+        navigate("/dashboard");
+      } else {
+        toast.error(response.data.message || "Login Failed");
+      }
+    }catch(err){
+      console.error("Error During Login:", err.response?.data);
+      toast.error(err.response?.data?.message || "Something Went Wrong @ login frnt");
+
     }
-  };
+  }
 
   return (
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
           <FontAwesomeIcon icon={faGraduationCap} className="logo-icon" />
+          <h3 className='welcome'>Welcome to</h3>
           <h1 className="main-title">
-            Welcome to ISSE Courses Professors Reviewing System
+            Rate-My-ISSE
           </h1>
         </div>
         
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="Email">Email</label>
             <input
-              type="text"
-              id="username"
-              name="username"
-              value={formData.username}
-              onChange={handleInputChange}
+              type="email"
+              onChange={(e) => { setEmail(e.target.value )}}
               required
-              placeholder="Enter your username"
+              placeholder="Enter your email"
             />
           </div>
           
@@ -96,10 +60,7 @@ const Login = ({ onLogin }) => {
             <label htmlFor="password">Password</label>
             <input
               type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
+              onChange={(e) => { setPassword(e.target.value )}}
               required
               placeholder="Enter your password"
             />
@@ -110,11 +71,6 @@ const Login = ({ onLogin }) => {
           </button>
         </form>
         
-        {message && (
-          <div className={`message ${messageType}`}>
-            {message}
-          </div>
-        )}
         
         <div className="demo-info">
           <p><strong>Demo Credentials:</strong></p>
@@ -125,5 +81,3 @@ const Login = ({ onLogin }) => {
     </div>
   );
 };
-
-export default Login; 
