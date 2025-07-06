@@ -1,15 +1,11 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../db'); // SQLite db connection
+const baseCookieOptions = require('../config/cookieConfig.js');
+
 
 const JWT_SECRET = "ETRHSDFW43EQT7HDFA";
 
-const baseCookieOptions = {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
-  path: '/',
-};
 
 // SQLite wrapper functions
 const runAsync = (query, params = []) => new Promise((resolve, reject) => {
@@ -61,15 +57,13 @@ const loginUser = async (email, password, res, keepLoggedIn = false) => {
       { expiresIn: jwtexpiresIn }
     );
 
-    res.cookie('authToken', token, {
-      ...baseCookieOptions,
-      maxAge: cookieMaxAge,
-    });
-
-    return res.json({
+    return {
       success: true,
       message: "Login Successful",
-    });
+      token,
+      cookieOptions: {maxAge: cookieMaxAge}
+    };
+
   } catch (error) {
     console.error("Login error:", error);
     return { success: false, message: "Login Failed", error: error };

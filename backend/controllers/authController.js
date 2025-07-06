@@ -7,6 +7,7 @@ const {
 const { authenticateToken } = require('../middleware/authMiddleware.js');
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
+const baseCookieOptions = require('../config/cookieConfig.js');
 
 dotenv.config()
 
@@ -48,7 +49,11 @@ const login=async(req, res) => {
     try {
         const response=await loginUser(email, password, res, keepLoggedIn);
         if(response.success===true){    
-            return res.status(200).json(response)
+            res.cookie('authToken', response.token, {
+                ...baseCookieOptions,
+                maxAge: response.cookieOptions.maxAge,
+            })
+            return res.status(200).json({ success: true, message: "Login Successful" })
         }else{
             return res.status(400).json(response)
         }
