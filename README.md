@@ -27,7 +27,7 @@ A modern React-based student portal for the Information Systems and Software Eng
 * **Password**: 020418
 
 ## Installation
-
+### FrontEnd
 1.  Navigate to the project directory:
     ```bash
     cd isse-student-portal
@@ -42,13 +42,19 @@ A modern React-based student portal for the Information Systems and Software Eng
     ```
 4.  Open [http://localhost:3000](http://localhost:3000) in your browser
 
-## Available Scripts
-
-* `npm start`: Runs the app in development mode
-* `npm run build`: Builds the app for production
-* `npm test`: Launches the test runner
-* `npm run eject`: Ejects from Create React App (not recommended)
-
+### backend
+1.  Navigate to the project backend directory:
+    ```bash
+    cd backend
+    ```
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Start the development server:
+    ```bash
+    node server.js
+    ```
 ## Technology Stack
 
 * **React 19**: Modern React with hooks and functional components
