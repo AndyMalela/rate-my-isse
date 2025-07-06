@@ -71,6 +71,9 @@ export default function Login (){
           </button>
         </form>
         
+        <div className="signup-link-section">
+          <p>Don't have an account? <span onClick={() => navigate("/signup")}>Sign Up</span></p>
+        </div>
         
         <div className="demo-info">
           <p><strong>Demo Credentials:</strong></p>

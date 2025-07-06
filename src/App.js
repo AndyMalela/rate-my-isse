@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import './App.css';
+import SignUp from './components/SignUp';
 
 function App() {
 
@@ -15,6 +16,12 @@ function App() {
             element={
               <Login/>
             } 
+          />
+          <Route
+          path='/signup'
+          element ={
+            <SignUp/>
+          }
           />
           <Route 
             path="/dashboard" 
