@@ -1,0 +1,7 @@
+.star-rating {
+  display: flex;
+  align-items: center;
+}
+.star-rating span:hover {
+  color: #ffb300;
+}

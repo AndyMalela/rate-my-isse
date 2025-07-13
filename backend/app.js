@@ -7,7 +7,11 @@ const professorRoutes = require('./routes/professorRoutes');
 const ratingRoutes = require('./routes/ratingRoutes');
 
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: 'http://localhost:3000', // ✅ Frontend origin
+  credentials: true                // ✅ Send cookies
+}));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -16,4 +20,5 @@ app.use("/api/courses", courseRoutes);
 app.use('/api/professors', professorRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/ratings", ratingRoutes);
+
 module.exports = app;

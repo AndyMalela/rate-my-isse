@@ -40,6 +40,17 @@ exports.create = (userId, data, cb) => {
     }
   );
 };
+exports.getRecentRatings = (callback) => {
+  const sql = `
+    SELECT r.*, p.name AS professor_name, c.course_name
+    FROM ratings r
+    JOIN professors p ON r.professor_id = p.id
+    JOIN courses c ON r.course_id = c.id
+    ORDER BY r.created_at DESC
+    LIMIT 5
+  `;
+  db.all(sql, [], callback);
+};
 
 exports.byCourseProf = (cid, pid, cb) =>
   db.all(

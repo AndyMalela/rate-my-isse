@@ -13,6 +13,12 @@ exports.add = (req, res) => {
     }
   );
 };
+exports.getRecentRatings = (req, res) => {
+  ratingModel.getRecentRatings((err, rows) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(rows);
+  });
+};
 
 exports.list = (req, res) => {
   ratingModel.byCourseProf(req.params.cid, req.params.pid,

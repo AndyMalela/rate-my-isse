@@ -19,7 +19,9 @@ export default function Login ({ setUser }){
     console.log(email, password); // Debugging line
 
     try{
-      const response = await axios.post("/api/auth/login-user", { email, password});
+      const response = await axios.post("/api/auth/login-user", { email, password}, {
+  withCredentials: true // ✅ VERY IMPORTANT
+});
       console.log('Login response:', response.data); // Debug login response
 
       if (response.data.success) {

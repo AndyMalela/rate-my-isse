@@ -19,8 +19,8 @@ const register = async(req, res )=>{
         return res.status(400).json({success:false, message: "All fields are required"});
     }
 
-    console.log("Password:", password);
-    console.log("Confirm Password:", confirmPassword);
+    //console.log("Password:", password);
+    //console.log("Confirm Password:", confirmPassword);
     if (password !== confirmPassword) {
         return res.status(400).json({ success: false, message: "Passwords do not match" });
     }
