@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import coursesData from '../../data/courses.json';
+import axios from 'axios';
 import './FindCourse.css';
 
 function highlightMatch(text, query) {
@@ -21,17 +21,33 @@ const FindCourse = () => {
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
-  const handleSearch = (e) => {
+  const fetchCourses = async (searchTerm) => {
+    try {
+      const res = await axios.get(`/api/courses?search=${encodeURIComponent(searchTerm)}`);
+      return res.data;
+    } catch (err) {
+      return [];
+    }
+  };
+
+  useEffect(() => {
+    // Preload some courses on mount
+    const preload = async () => {
+      const courses = await fetchCourses('');
+      setResults(courses.slice(0, 10));
+    };
+    preload();
+    // eslint-disable-next-line
+  }, []);
+
+  const handleSearch = async (e) => {
     e.preventDefault();
-    const filtered = coursesData.courses.filter(course =>
-      course.name.toLowerCase().includes(query.toLowerCase()) ||
-      course.code.toLowerCase().includes(query.toLowerCase())
-    );
-    setResults(filtered);
+    const courses = await fetchCourses(query);
+    setResults(courses);
     setShowSuggestions(false);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = async (e) => {
     const value = e.target.value;
     setQuery(value);
     if (value.trim() === '') {
@@ -39,18 +55,16 @@ const FindCourse = () => {
       setShowSuggestions(false);
       return;
     }
-    const filtered = coursesData.courses.filter(course =>
-      course.name.toLowerCase().includes(value.toLowerCase())
-    );
-    setSuggestions(filtered);
-    setShowSuggestions(filtered.length > 0);
+    const courses = await fetchCourses(value);
+    setSuggestions(courses);
+    setShowSuggestions(courses.length > 0);
     setHighlightIndex(-1);
   };
 
   const handleSuggestionClick = (course) => {
-    setQuery(course.name);
+    setQuery(course.course_name);
     setShowSuggestions(false);
-    navigate(`/dashboard/course/${encodeURIComponent(course.code || course.name)}`);
+    navigate(`/dashboard/course/${course.id}`);
   };
 
   const handleInputBlur = () => {
@@ -82,7 +96,7 @@ const FindCourse = () => {
           <input
             ref={inputRef}
             type="text"
-            placeholder="Enter course name or code..."
+            placeholder="Enter course name..."
             value={query}
             onChange={handleInputChange}
             onBlur={handleInputBlur}
@@ -94,12 +108,12 @@ const FindCourse = () => {
             <ul className="autocomplete-suggestions">
               {suggestions.map((course, idx) => (
                 <li
-                  key={course.code + course.name}
+                  key={course.id}
                   className={highlightIndex === idx ? 'highlight' : ''}
                   onMouseDown={() => handleSuggestionClick(course)}
                   style={{ cursor: 'pointer' }}
                 >
-                  {highlightMatch(course.name, query)}
+                  {highlightMatch(course.course_name, query)}
                 </li>
               ))}
             </ul>
@@ -109,14 +123,12 @@ const FindCourse = () => {
       </form>
       <div className="results-list">
         {results.length === 0 && <p>No results found.</p>}
-        {results.map((course, idx) => (
-          <div key={idx} className="course-card" onClick={() => navigate(`/dashboard/course/${encodeURIComponent(course.code || course.name)}`)} style={{cursor:'pointer'}}>
-            <h3>{course.name}</h3>
-            <p><strong>Code:</strong> {course.code}</p>
-            <p><strong>Professor:</strong> {course.professor}</p>
-            {course.category && <p><strong>Category:</strong> {course.category}</p>}
-            {course.group && <p><strong>Group:</strong> {course.group}</p>}
-            {course.credit !== undefined && <p><strong>Credit:</strong> {course.credit}</p>}
+        {results.map((course) => (
+          <div key={course.id} className="course-card" onClick={() => navigate(`/dashboard/course/${course.id}`)} style={{cursor:'pointer'}}>
+            <h3>{course.course_name}</h3>
+            <p><strong>Period:</strong> {course.period}</p>
+            <p><strong>Semester Term:</strong> {course.semester_term}</p>
+            <p><strong>Language:</strong> {course.language}</p>
           </div>
         ))}
       </div>

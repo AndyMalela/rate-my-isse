@@ -53,7 +53,15 @@ const login=async(req, res) => {
                 ...baseCookieOptions,
                 maxAge: response.cookieOptions.maxAge,
             })
-            return res.status(200).json({ success: true, message: "Login Successful" })
+            return res.status(200).json({ 
+                success: true, 
+                message: "Login Successful",
+                user: {
+                    id: response.user.id,
+                    name: response.user.name,
+                    email: response.user.email
+                }
+            })
         }else{
             return res.status(400).json(response)
         }
@@ -81,6 +89,15 @@ const getMe = (req, res) => {
     }
 }
 
+const updateName = (req, res) => {
+    const userId = req.params.id;
+    const { name } = req.body;
+    if (!name) return res.status(400).json({ success: false, message: 'Name is required' });
+    UserModel.updateNameById(userId, name, (err, result) => {
+        if (err) return res.status(500).json({ success: false, message: 'Failed to update name' });
+        res.json({ success: true, ...result });
+    });
+};
 
-  
-module.exports = {register, login, logout, getMe}
+
+module.exports = {register, login, logout, getMe, updateName}

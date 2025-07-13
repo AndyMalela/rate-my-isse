@@ -36,45 +36,43 @@
 
 .professor-detail-page.new-layout {
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 48px;
+  flex-direction: column;
+  align-items: center;
   padding: 48px 0;
   background: #fafbfc;
+  min-height: 100vh;
 }
 
-.professor-photo-col {
-  flex: 0 0 260px;
+.professor-header {
+  width: 100%;
+  max-width: 1200px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.professor-content {
   display: flex;
+  gap: 40px;
+  width: 100%;
+  max-width: 1200px;
   align-items: flex-start;
-  justify-content: center;
 }
 
-.professor-photo-large {
-  width: 220px;
-  height: 220px;
-  object-fit: cover;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(214, 48, 49, 0.10);
-  border: 4px solid #fff;
-  background: #f1f2f6;
-}
-
-.professor-info-col {
+.professor-stats-col {
   flex: 1;
-  min-width: 320px;
-  max-width: 520px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 6px 24px rgba(214, 48, 49, 0.10);
-  padding: 36px 40px;
+  min-width: 0;
+}
+
+.professor-courses-col {
+  flex: 1;
+  min-width: 0;
 }
 
 .professor-name {
-  font-size: 2.2rem;
+  font-size: 2.8rem;
   font-weight: 700;
   color: #d63031;
-  margin-bottom: 32px;
+  margin-bottom: 0;
   letter-spacing: 1px;
 }
 
@@ -196,4 +194,265 @@
   padding: 10px 32px;
   border-radius: 8px;
   margin-top: 10px;
+}
+
+/* Professor Statistics Section */
+.professor-stats-section {
+  padding: 32px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(214, 48, 49, 0.10);
+  border: 1px solid #e9ecef;
+}
+
+.professor-stats-section.no-reviews {
+  text-align: center;
+  color: #6c757d;
+}
+
+.professor-stats-section.no-reviews p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.professor-stats-section h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2d3436;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #d63031;
+  margin-bottom: 8px;
+}
+
+.stat-stars {
+  font-size: 1.2rem;
+  color: #ffc107;
+  letter-spacing: 2px;
+}
+
+/* Courses Section */
+.courses-section {
+  padding: 32px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(214, 48, 49, 0.10);
+  border: 1px solid #e9ecef;
+}
+
+.courses-section h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2d3436;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.courses-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.course-card {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.course-card:hover {
+  background: #fff;
+  border-color: #d63031;
+  box-shadow: 0 4px 12px rgba(214, 48, 49, 0.15);
+  transform: translateY(-2px);
+}
+
+.course-link {
+  color: #d63031;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.no-courses {
+  text-align: center;
+  color: #6c757d;
+  padding: 40px 20px;
+}
+
+.no-courses p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .professor-content {
+    flex-direction: column;
+    gap: 32px;
+  }
+  
+  .professor-header {
+    margin-bottom: 24px;
+  }
+  
+  .professor-name {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .professor-stats-section,
+  .courses-section {
+    padding: 20px;
+  }
+  
+  .stat-card {
+    padding: 16px;
+  }
+  
+  .course-card {
+    padding: 16px;
+  }
+} 
+
+.professor-reviews-section {
+  margin-top: 48px;
+  width: 100%;
+  max-width: 1200px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(214, 48, 49, 0.10);
+  padding: 32px;
+  border: 1px solid #e9ecef;
+}
+.professor-reviews-section h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #d63031;
+  margin-bottom: 24px;
+  text-align: center;
+}
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+}
+.review-card {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(214, 48, 49, 0.08);
+  border-left: 4px solid #d63031;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.review-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(214, 48, 49, 0.15);
+}
+.review-header {
+  margin-bottom: 12px;
+}
+.course-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d3436;
+}
+.review-ratings {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.rating-label {
+  font-size: 0.95rem;
+  color: #636e72;
+  font-weight: 500;
+}
+.review-features {
+  margin-bottom: 10px;
+}
+.features-label {
+  font-size: 0.9rem;
+  color: #636e72;
+  font-weight: 500;
+  margin-right: 4px;
+}
+.features-list {
+  font-size: 0.95rem;
+  color: #d63031;
+  font-weight: 500;
+  font-style: italic;
+}
+.review-text {
+  margin-bottom: 10px;
+}
+.review-text p {
+  font-size: 0.95rem;
+  color: #2d3436;
+  line-height: 1.5;
+  margin: 0;
+  font-style: italic;
+}
+.review-footer {
+  text-align: left;
+  padding-top: 8px;
+  border-top: 1px solid #f1f2f6;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.review-author {
+  font-size: 0.9rem;
+  color: #d63031;
+  font-weight: 500;
+  font-style: italic;
+}
+@media (max-width: 900px) {
+  .professor-reviews-section {
+    padding: 20px;
+  }
+  .reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 } 

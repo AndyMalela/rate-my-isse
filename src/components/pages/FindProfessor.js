@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import professorsData from '../../data/professors.json';
+import axios from 'axios';
 import './FindProfessor.css';
 
 function highlightMatch(text, query) {
@@ -21,17 +21,23 @@ const FindProfessor = () => {
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
-  const handleSearch = (e) => {
+  const fetchProfessors = async (searchTerm) => {
+    try {
+      const res = await axios.get(`/api/professors?search=${encodeURIComponent(searchTerm)}`);
+      return res.data;
+    } catch (err) {
+      return [];
+    }
+  };
+
+  const handleSearch = async (e) => {
     e.preventDefault();
-    const filtered = professorsData.professors.filter(prof =>
-      prof.name.toLowerCase().includes(query.toLowerCase()) ||
-      prof.department.toLowerCase().includes(query.toLowerCase())
-    );
-    setResults(filtered);
+    const profs = await fetchProfessors(query);
+    setResults(profs);
     setShowSuggestions(false);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = async (e) => {
     const value = e.target.value;
     setQuery(value);
     if (value.trim() === '') {
@@ -39,22 +45,20 @@ const FindProfessor = () => {
       setShowSuggestions(false);
       return;
     }
-    const filtered = professorsData.professors.filter(prof =>
-      prof.name.toLowerCase().includes(value.toLowerCase())
-    );
-    setSuggestions(filtered);
-    setShowSuggestions(filtered.length > 0);
+    const profs = await fetchProfessors(value);
+    setSuggestions(profs);
+    setShowSuggestions(profs.length > 0);
     setHighlightIndex(-1);
   };
 
   const handleSuggestionClick = (prof) => {
     setQuery(prof.name);
     setShowSuggestions(false);
-    navigate(`/dashboard/professor/${encodeURIComponent(prof.name)}`);
+    navigate(`/dashboard/professor/${prof.id}`);
   };
 
   const handleInputBlur = () => {
-    setTimeout(() => setShowSuggestions(false), 100); // 延迟隐藏，允许点击
+    setTimeout(() => setShowSuggestions(false), 100);
   };
 
   const handleInputFocus = () => {
@@ -74,6 +78,16 @@ const FindProfessor = () => {
     }
   };
 
+  useEffect(() => {
+    // Preload some professors on mount
+    const preload = async () => {
+      const profs = await fetchProfessors('');
+      setResults(profs.slice(0, 10));
+    };
+    preload();
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <div className="find-professor-page">
       <h2>Find my Professor</h2>
@@ -82,7 +96,7 @@ const FindProfessor = () => {
           <input
             ref={inputRef}
             type="text"
-            placeholder="Enter professor name or department..."
+            placeholder="Enter professor name..."
             value={query}
             onChange={handleInputChange}
             onBlur={handleInputBlur}
@@ -94,7 +108,7 @@ const FindProfessor = () => {
             <ul className="autocomplete-suggestions">
               {suggestions.map((prof, idx) => (
                 <li
-                  key={prof.name}
+                  key={prof.id}
                   className={highlightIndex === idx ? 'highlight' : ''}
                   onMouseDown={() => handleSuggestionClick(prof)}
                   style={{ cursor: 'pointer' }}
@@ -110,11 +124,8 @@ const FindProfessor = () => {
       <div className="results-list">
         {results.length === 0 && <p>No results found.</p>}
         {results.map((prof, idx) => (
-          <div key={idx} className="professor-card" onClick={() => navigate(`/dashboard/professor/${encodeURIComponent(prof.name)}`)} style={{cursor:'pointer'}}>
+          <div key={prof.id} className="professor-card" onClick={() => navigate(`/dashboard/professor/${prof.id}`)} style={{cursor:'pointer'}}>
             <h3>{prof.name}</h3>
-            <p><strong>Department:</strong> {prof.department}</p>
-            <p><strong>Rating:</strong> {prof.rating} / 5</p>
-            <p><strong>Courses:</strong> {prof.courses.join(', ')}</p>
           </div>
         ))}
       </div>

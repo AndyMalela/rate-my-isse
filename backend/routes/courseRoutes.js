@@ -5,6 +5,9 @@ const courseController = require('../controllers/courseController');
 // GET /api/courses
 router.get('/', courseController.getAllCourses);
 
+// GET /api/courses/:id
+router.get('/:id', courseController.getCourseById);
+
 // GET /api/courses/:id/professors
 router.get('/:id/professors', courseController.getCourseProfessors);
 

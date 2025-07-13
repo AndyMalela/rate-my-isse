@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 import './SignUp.css';
 
-export default function SignUp() {
+export default function SignUp({ setUser }) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

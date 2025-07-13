@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import './Login.css';
 
 
-export default function Login (){
+export default function Login ({ setUser }){
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -19,10 +20,16 @@ export default function Login (){
 
     try{
       const response = await axios.post("/api/auth/login-user", { email, password});
+      console.log('Login response:', response.data); // Debug login response
 
       if (response.data.success) {
         toast.success(response.data.message || "Login Successful");
-
+        
+        // Set user state with the response data
+        const userData = response.data.user;
+        console.log('Setting user data:', userData); // Debug user data
+        setUser(userData);
+        
         navigate("/dashboard");
       } else {
         toast.error(response.data.message || "Login Failed");
@@ -77,7 +84,7 @@ export default function Login (){
         
         <div className="demo-info">
           <p><strong>Demo Credentials:</strong></p>
-          <p>Username: CHU Mingzuo</p>
+          <p>Email: chu@test.com</p>
           <p>Password: 020418</p>
         </div>
       </div>

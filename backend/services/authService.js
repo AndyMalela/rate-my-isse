@@ -61,6 +61,11 @@ const loginUser = async (email, password, res, keepLoggedIn = false) => {
       success: true,
       message: "Login Successful",
       token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email
+      },
       cookieOptions: {maxAge: cookieMaxAge}
     };
 

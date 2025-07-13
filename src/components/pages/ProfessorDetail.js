@@ -1,207 +1,154 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import professorsData from '../../data/professors.json';
-import coursesData from '../../data/courses.json';
-import ratingsJson from '../../data/ratings.json';
-import StarRating from '../StarRating';
+import axios from 'axios';
 import './ProfessorDetail.css';
+import StarRating from '../StarRating';
 
-const RATING_DIMENSIONS = [
-  { key: 'overall', label: 'Overall' },
-  { key: 'friendliness', label: 'Friendliness' },
-  { key: 'professionalism', label: 'Professionalism' }
-];
-
-function getLocalRatings() {
-  const local = localStorage.getItem('professorRatings');
-  let ratingsData;
-  
-  if (local) {
-    ratingsData = JSON.parse(local);
-  } else {
-    ratingsData = ratingsJson;
-  }
-  
-  // 确保所有教授都在 ratings 数据中
-  const allProfessors = professorsData.professors.map(p => p.name);
-  const missingProfessors = allProfessors.filter(profName => 
-    !ratingsData.ratings.some(r => r.professor.toLowerCase() === profName.toLowerCase())
-  );
-  
-  if (missingProfessors.length > 0) {
-    missingProfessors.forEach(profName => {
-      ratingsData.ratings.push({ professor: profName, ratings: [] });
-    });
-    // 保存更新后的数据
-    localStorage.setItem('professorRatings', JSON.stringify(ratingsData));
-  }
-  
-  return ratingsData;
-}
-
-function saveLocalRatings(data) {
-  localStorage.setItem('professorRatings', JSON.stringify(data));
-}
-
-const ProfessorDetail = ({ user }) => {
-  const { name } = useParams();
+const ProfessorDetail = () => {
+  const { name: id } = useParams(); // 'name' param is now actually the professor ID
   const navigate = useNavigate();
-  const professor = professorsData.professors.find(
-    prof => prof.name.toLowerCase() === decodeURIComponent(name).toLowerCase()
-  );
+  const [professor, setProfessor] = useState(null);
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [reviews, setReviews] = useState([]);
 
-  // Hooks必须在组件顶层调用
-  const [form, setForm] = useState({ overall: 0, friendliness: 0, professionalism: 0 });
-  const [submitted, setSubmitted] = useState(false);
-  const [allRatings, setAllRatings] = useState([]);
-
-  const userName = (user && user.username) || (localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')).username : '');
-
-  // 读取评分数据（localStorage优先）
   useEffect(() => {
-    if (!professor) return;
-    const local = getLocalRatings();
-    const entry = local.ratings.find(r => r.professor.toLowerCase() === professor.name.toLowerCase());
-    setAllRatings(entry ? entry.ratings : []);
-  }, [professor]);
+    const fetchProfessor = async () => {
+      try {
+        setLoading(true);
+        const [professorRes, statsRes, reviewsRes] = await Promise.all([
+          axios.get(`/api/professors/${id}`),
+          axios.get(`/api/ratings/prof/${id}/stats`),
+          axios.get(`/api/ratings/prof/${id}`)
+        ]);
+        setProfessor(professorRes.data);
+        setStats(statsRes.data);
+        setReviews(reviewsRes.data);
+        setError(null);
+      } catch (err) {
+        setError('Professor not found');
+        setProfessor(null);
+        setStats(null);
+        setReviews([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfessor();
+  }, [id]);
 
-  // 当前用户评分
-  useEffect(() => {
-    if (!professor) return;
-    const userRating = allRatings.find(r => r.user === userName) || { overall: 0, friendliness: 0, professionalism: 0 };
-    setForm({ ...userRating });
-  }, [professor, allRatings, userName]);
-
-  if (!professor) return <div className="professor-detail-page"><h2>Professor not found</h2></div>;
-
-  // 获取教授所教课程的详细信息
-  const taughtCourses = professor.courses.map(courseName => {
-    return coursesData.courses.find(
-      c => c.name.toLowerCase() === courseName.toLowerCase()
-    ) || { name: courseName, code: '', professor: professor.name };
-  });
-
-  // 只设置一次默认图片，避免闪烁
-  const handleImgError = (e) => {
-    if (!e.target.src.includes('default.jpg')) {
-      e.target.onerror = null;
-      e.target.src = process.env.PUBLIC_URL + '/default.jpg';
-    }
-  };
-
-  // 计算平均分和人数
-  const averages = {};
-  RATING_DIMENSIONS.forEach(dim => {
-    const sum = allRatings.reduce((acc, r) => acc + (r[dim.key] || 0), 0);
-    averages[dim.key] = allRatings.length ? (sum / allRatings.length) : 0;
-  });
-  const numRatings = allRatings.length;
-
-  const handleStarChange = (key, value) => {
-    setForm(f => ({ ...f, [key]: value }));
-    setSubmitted(false);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // 更新localStorage
-    const local = getLocalRatings();
-    const idx = local.ratings.findIndex(r => r.professor.toLowerCase() === professor.name.toLowerCase());
-    
-    if (idx === -1) {
-      console.error('Professor not found in ratings data:', professor.name);
-      return;
-    }
-    const ratingsArr = local.ratings[idx].ratings;
-    const userIdx = ratingsArr.findIndex(r => r.user === userName);
-    if (userIdx !== -1) {
-      ratingsArr[userIdx] = { user: userName, ...form };
-    } else {
-      ratingsArr.push({ user: userName, ...form });
-    }
-    local.ratings[idx].ratings = ratingsArr;
-    saveLocalRatings(local);
-    setAllRatings([...ratingsArr]);
-    setSubmitted(true);
-  };
+  if (loading) return <div className="professor-detail-page"><h2>Loading...</h2></div>;
+  if (error || !professor) return <div className="professor-detail-page"><h2>{error || 'Professor not found'}</h2></div>;
 
   return (
     <div className="professor-detail-page new-layout">
-      <div className="professor-photo-col">
-        <img
-          src={process.env.PUBLIC_URL + '/' + (professor.photo || 'default.jpg')}
-          alt={professor.name}
-          className="professor-photo-large"
-          onError={handleImgError}
-        />
-        <div className="professor-rating-summary">
-          {RATING_DIMENSIONS.map(dim => (
-            <div className="professor-rating-row" key={dim.key}>
-              <span className="professor-rating-label">{averages[dim.key].toFixed(1)}</span>
-              <StarRating value={averages[dim.key]} readOnly size={20} />
-              <span className="professor-rating-count">({numRatings})</span>
-              <span className="professor-rating-dim-label">{dim.label}</span>
+      <div className="professor-header">
+        <h1 className="professor-name">{professor.name}</h1>
+      </div>
+      
+      <div className="professor-content">
+        {/* Left side - Statistics */}
+        <div className="professor-stats-col">
+          {stats && stats.total_reviews > 0 ? (
+            <div className="professor-stats-section">
+              <h2>Professor Statistics</h2>
+              <div className="stats-grid">
+                <div className="stat-card">
+                  <div className="stat-label">Average Professor Rating</div>
+                  <div className="stat-value">
+                    {stats.avg_professor_rating ? parseFloat(stats.avg_professor_rating).toFixed(1) : 'N/A'} / 5
+                  </div>
+                  <div className="stat-stars">
+                    {stats.avg_professor_rating ? '★'.repeat(Math.round(parseFloat(stats.avg_professor_rating))) + '☆'.repeat(5 - Math.round(parseFloat(stats.avg_professor_rating))) : '☆☆☆☆☆'}
+                  </div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-label">Average Course Hardness</div>
+                  <div className="stat-value">
+                    {stats.avg_hardness_rating ? parseFloat(stats.avg_hardness_rating).toFixed(1) : 'N/A'} / 5
+                  </div>
+                  <div className="stat-stars">
+                    {stats.avg_hardness_rating ? '★'.repeat(Math.round(parseFloat(stats.avg_hardness_rating))) + '☆'.repeat(5 - Math.round(parseFloat(stats.avg_hardness_rating))) : '☆☆☆☆☆'}
+                  </div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-label">Total Reviews</div>
+                  <div className="stat-value">{stats.total_reviews}</div>
+                </div>
+              </div>
             </div>
-          ))}
+          ) : (
+            <div className="professor-stats-section no-reviews">
+              <h2>Professor Statistics</h2>
+              <p>No reviews yet for this professor.</p>
+            </div>
+          )}
+        </div>
+        
+        {/* Right side - Courses */}
+        <div className="professor-courses-col">
+          <div className="courses-section">
+            <h2>Courses Taught</h2>
+            <div className="courses-grid">
+              {professor.courses && professor.courses.length > 0 ? (
+                professor.courses.map((course) => (
+                  <div key={course.id} className="course-card">
+                    <div
+                      className="course-link"
+                      onClick={() => navigate(`/dashboard/course/${course.id}`)}
+                    >
+                      {course.course_name}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="no-courses">
+                  <p>No courses found for this professor.</p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
-      <div className="professor-info-col">
-        <h1 className="professor-name">{professor.name}</h1>
-        <table className="professor-info-table">
-          <tbody>
-            {professor.department && (
-              <tr>
-                <th>Department</th>
-                <td>{professor.department}</td>
-              </tr>
-            )}
-            {professor.title && (
-              <tr>
-                <th>Title</th>
-                <td>{professor.title}</td>
-              </tr>
-            )}
-            {professor.rating !== undefined && professor.rating !== 0 && (
-              <tr>
-                <th>Rating</th>
-                <td>{professor.rating} / 5</td>
-              </tr>
-            )}
-            <tr>
-              <th>Courses Taught</th>
-              <td>
-                <ul className="professor-courses-list">
-                  {taughtCourses.map((course, idx) => (
-                    <li key={idx}>
-                      <span
-                        className="course-link"
-                        onClick={() => navigate(`/dashboard/course/${encodeURIComponent(course.code || course.name)}`)}
-                        style={{ color: '#d63031', cursor: 'pointer', textDecoration: 'underline' }}
-                      >
-                        {course.name}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div className="professor-rating-form-wrapper">
-          <h3 style={{marginTop:32,marginBottom:16}}>Your Rating</h3>
-          <form onSubmit={handleSubmit} className="professor-rating-form">
-            {RATING_DIMENSIONS.map(dim => (
-              <div className="professor-rating-form-row" key={dim.key}>
-                <span className="professor-rating-dim-label">{dim.label}</span>
-                <StarRating value={form[dim.key] || 0} onChange={v => handleStarChange(dim.key, v)} size={28} />
-                <span className="professor-rating-value">{form[dim.key] ? form[dim.key].toFixed(1) : ''}</span>
+      {/* Professor Reviews Section */}
+      <div className="professor-reviews-section">
+        <h2>What Students Say About {professor.name}</h2>
+        {reviews.length === 0 ? (
+          <p>No reviews yet for this professor.</p>
+        ) : (
+          <div className="reviews-grid">
+            {reviews.map((review) => (
+              <div key={review.id} className="review-card">
+                <div className="review-header">
+                  <span className="course-name">{review.course_name}</span>
+                </div>
+                <div className="review-ratings">
+                  <span className="rating-label">Professor:</span>
+                  <StarRating value={review.rating_professor} readOnly size={16} />
+                  <span className="rating-label">Hardness:</span>
+                  <StarRating value={review.rating_hardness} readOnly size={16} />
+                </div>
+                {review.features && (
+                  <div className="review-features">
+                    <span className="features-label">Features:</span>
+                    <span className="features-list">
+                      {review.features.split(',').map(f => f.charAt(0).toUpperCase() + f.slice(1).replace(/_/g, ' ')).join(', ')}
+                    </span>
+                  </div>
+                )}
+                {review.review_text && (
+                  <div className="review-text">
+                    <p>{review.review_text}</p>
+                  </div>
+                )}
+                <div className="review-footer">
+                  <span className="review-author">By {review.user_name || 'Anonymous'}</span>
+                </div>
               </div>
             ))}
-            <button type="submit" className="btn-primary" style={{marginTop:16}}>
-              {submitted ? 'Resubmit' : 'Submit'}
-            </button>
-          </form>
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
