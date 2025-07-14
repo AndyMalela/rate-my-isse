@@ -13,14 +13,16 @@ const ProfessorDetail = () => {
   const [error, setError] = useState(null);
   const [reviews, setReviews] = useState([]);
 
+  const API_BASE = process.env.REACT_APP_API_BASE_URL || '';
+
   useEffect(() => {
     const fetchProfessor = async () => {
       try {
         setLoading(true);
         const [professorRes, statsRes, reviewsRes] = await Promise.all([
-          axios.get(`/api/professors/${id}`),
-          axios.get(`/api/ratings/prof/${id}/stats`),
-          axios.get(`/api/ratings/prof/${id}`)
+          axios.get(`${API_BASE}/api/professors/${id}`),
+          axios.get(`${API_BASE}/api/ratings/prof/${id}/stats`),
+          axios.get(`${API_BASE}/api/ratings/prof/${id}`)
         ]);
         setProfessor(professorRes.data);
         setStats(statsRes.data);
@@ -36,7 +38,7 @@ const ProfessorDetail = () => {
       }
     };
     fetchProfessor();
-  }, [id]);
+  }, [API_BASE, id]);
 
   if (loading) return <div className="professor-detail-page"><h2>Loading...</h2></div>;
   if (error || !professor) return <div className="professor-detail-page"><h2>{error || 'Professor not found'}</h2></div>;

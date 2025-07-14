@@ -16,6 +16,8 @@ const Profile = ({ user }) => {
   const [saving, setSaving] = useState(false);
   const [profileMsg, setProfileMsg] = useState(null);
 
+  const API_BASE = process.env.REACT_APP_API_BASE_URL || '';
+
   useEffect(() => {
     const fetchUserReviews = async () => {
       console.log('Profile component - user object:', user); // Debug log
@@ -29,7 +31,7 @@ const Profile = ({ user }) => {
       try {
         setLoading(true);
         console.log('Fetching reviews for user ID:', user.id); // Debug log
-        const response = await axios.get(`/api/ratings/user/${user.id}`);
+        const response = await axios.get(`${API_BASE}/api/ratings/user/${user.id}`);
         console.log('Reviews response:', response.data); // Debug log
         setReviews(response.data);
         setError(null);
@@ -43,7 +45,7 @@ const Profile = ({ user }) => {
     };
 
     fetchUserReviews();
-  }, [user]);
+  }, [API_BASE, user]);
 
   const formatFeatureName = (name) => {
     return name.split('_').map(word => 
@@ -69,7 +71,7 @@ const Profile = ({ user }) => {
     setSaving(true);
     setProfileMsg(null);
     try {
-      await axios.put(`/api/auth/user/${user.id}`, { name: newName });
+      await axios.put(`${API_BASE}/api/auth/user/${user.id}`, { name: newName });
       setProfileMsg('Name updated!');
       setEditMode(false);
       // Optionally, reload the page or update user state if available

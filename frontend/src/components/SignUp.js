@@ -14,6 +14,8 @@ export default function SignUp({ setUser }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
+  const API_BASE = process.env.REACT_APP_API_BASE_URL || '';
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -25,7 +27,7 @@ export default function SignUp({ setUser }) {
     console.log(email, username, password);
 
     try {
-      const response = await axios.post("/api/auth/register-user", { email, username, password, confirmPassword });
+      const response = await axios.post(`${API_BASE}/api/auth/register-user`, { email, username, password, confirmPassword });
 
       if (response.data.success) {
         toast.success(response.data.message || "Registration Successful! Please log in.");

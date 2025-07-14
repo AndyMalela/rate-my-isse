@@ -4,6 +4,8 @@ import axios from 'axios';
 import StarRating from '../StarRating';
 import './CourseDetail.css';
 
+const API_BASE = process.env.REACT_APP_API_BASE_URL || '';
+
 const CourseDetail = ({ user }) => {
   const { code: id } = useParams(); // 'code' param is now actually the course ID
   const navigate = useNavigate();
@@ -25,18 +27,18 @@ const CourseDetail = ({ user }) => {
       setLoading(true);
       try {
         // Fetch course details
-        const courseRes = await axios.get(`/api/courses/${id}`);
+        const courseRes = await axios.get(`${API_BASE}/api/courses/${id}`);
         setCourse(courseRes.data);
         // Fetch reviews
-        const reviewsRes = await axios.get(`/api/ratings/course/${id}`);
+        const reviewsRes = await axios.get(`${API_BASE}/api/ratings/course/${id}`);
         setReviews(reviewsRes.data);
         // Fetch features
-        const featuresRes = await axios.get('/api/ratings/features');
+        const featuresRes = await axios.get(`${API_BASE}/api/ratings/features`);
         setFeatures(featuresRes.data);
         // Fetch user review if logged in
         if (user && user.id) {
           console.log('Fetching user review for user ID:', user.id, 'course ID:', id); // Debug log
-          const userReviewRes = await axios.get(`/api/ratings/user/${user.id}/course/${id}`);
+          const userReviewRes = await axios.get(`${API_BASE}/api/ratings/user/${user.id}/course/${id}`);
           console.log('User review response:', userReviewRes.data); // Debug log
           setUserReview(userReviewRes.data);
           if (userReviewRes.data) {
@@ -117,17 +119,17 @@ const CourseDetail = ({ user }) => {
         review_text: form.review_text
       };
       if (editing && userReview) {
-        await axios.put(`/api/ratings/${userReview.id}`, payload);
+        await axios.put(`${API_BASE}/api/ratings/${userReview.id}`, payload);
         setSuccessMsg('Review updated!');
       } else {
-        await axios.post('/api/ratings', payload);
+        await axios.post(`${API_BASE}/api/ratings`, payload);
         setSuccessMsg('Review submitted!');
       }
       
       // Refresh reviews and fetch user's review
       const [reviewsRes, userReviewRes] = await Promise.all([
-        axios.get(`/api/ratings/course/${id}`),
-        axios.get(`/api/ratings/user/${user.id}/course/${id}`)
+        axios.get(`${API_BASE}/api/ratings/course/${id}`),
+        axios.get(`${API_BASE}/api/ratings/user/${user.id}/course/${id}`)
       ]);
       
       setReviews(reviewsRes.data);
@@ -168,7 +170,7 @@ const CourseDetail = ({ user }) => {
   const handleDelete = async () => {
     if (!userReview) return;
     try {
-      await axios.delete(`/api/ratings/${userReview.id}`);
+      await axios.delete(`${API_BASE}/api/ratings/${userReview.id}`);
       setUserReview(null);
       setEditing(false);
       setShowEditForm(true); // Show form for new review
@@ -183,7 +185,7 @@ const CourseDetail = ({ user }) => {
       });
       setSuccessMsg('Review deleted.');
       // Refresh reviews
-      const reviewsRes = await axios.get(`/api/ratings/course/${id}`);
+      const reviewsRes = await axios.get(`${API_BASE}/api/ratings/course/${id}`);
       setReviews(reviewsRes.data);
     } catch (err) {
       setSubmitError('Failed to delete review.');

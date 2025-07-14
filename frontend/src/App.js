@@ -16,8 +16,9 @@ function AppContent() {
   // Check if user is logged in on component mount
   useEffect(() => {
     const checkAuth = async () => {
+      const API_BASE = process.env.REACT_APP_API_BASE_URL || '';
       try {
-        const response = await axios.get('/api/auth/me');
+        const response = await axios.get(`${API_BASE}/api/auth/me`);
         if (response.data.success) {
           setUser(response.data.data);
         }

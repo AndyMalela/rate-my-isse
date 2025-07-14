@@ -21,9 +21,11 @@ const FindProfessor = () => {
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
+  const API_BASE = process.env.REACT_APP_API_BASE_URL || '';
+
   const fetchProfessors = async (searchTerm) => {
     try {
-      const res = await axios.get(`/api/professors?search=${encodeURIComponent(searchTerm)}`);
+      const res = await axios.get(`${API_BASE}/api/professors?search=${encodeURIComponent(searchTerm)}`);
       return res.data;
     } catch (err) {
       return [];
