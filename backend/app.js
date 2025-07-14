@@ -11,7 +11,7 @@ const app = express();
 // Monkey-patch app.use to log all calls
 const originalUse = app.use;
 app.use = function(...args) {
-  console.log("app.use called with:", args[0]);
+  console.log("app.use called with:", args[0], "Type:", typeof args[0], "Value:", args[0]);
   return originalUse.apply(this, args);
 };
 
@@ -40,6 +40,10 @@ app.use(express.static(path.join(__dirname, '../frontend/build')));
 // The "catchall" handler: for any request that doesn't match an API route, send back React's index.html
 console.log("Registering catch-all route: *");
 app.get('*', (req, res) => {
+  console.log("Catch-all route triggered for:", req.path);
   res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
 });
+
+console.log("All routes registered successfully");
+
 module.exports = app;
