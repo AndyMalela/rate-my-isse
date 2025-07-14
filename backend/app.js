@@ -38,8 +38,8 @@ console.log("Registering static file serving for /frontend/build");
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 
 // The "catchall" handler: for any request that doesn't match an API route, send back React's index.html
-console.log("Registering catch-all route: *");
-app.get('*', (req, res) => {
+console.log("Registering catch-all route for non-API paths");
+app.get(/^(?!\/api).*/, (req, res) => {
   console.log("Catch-all route triggered for:", req.path);
   res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
 });
